@@ -1,0 +1,6 @@
+.cheese-list{
+    display: grid;
+    grid-template-columns: repeat(3, 30%);
+    grid-template-rows: repeat(2, 45%);
+    grid-gap: 10px;
+}
