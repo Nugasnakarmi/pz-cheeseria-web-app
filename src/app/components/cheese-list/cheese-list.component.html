@@ -1,5 +1,7 @@
 <h2>PZ Cheeseria</h2>
 <div class="cheese-list">
-    @for (item of [0,1,2,3,4]; track $index) {<app-cheese-item></app-cheese-item>}
+  @for (cheese of cheeseList; track $index) {<app-cheese-item
+    [cheese]="cheese"
+  ></app-cheese-item
+  >}
 </div>
-
