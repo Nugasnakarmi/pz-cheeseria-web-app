@@ -1,7 +1,13 @@
 <h2>PZ Cheeseria</h2>
+
+@if(cheeseList$ | async; as cheeseList){
 <div class="cheese-list">
-  @for (cheese of cheeseList; track $index) {<app-cheese-item
+  @for (cheese of cheeseList; track $index) {
+  <app-cheese-item
     [cheese]="cheese"
+    (click)="onCheeseClick()"
+    title="Click to buy"
   ></app-cheese-item
   >}
 </div>
+}

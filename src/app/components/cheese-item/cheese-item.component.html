@@ -1,3 +1,7 @@
-<p>cheese-item works!</p>
-<h1>Cheese</h1>
-<img src="assets/images/Abondance.jpg">
+<h1>{{ cheese.name }}</h1>
+<img class="cheese-image" alt="{{ cheese.name }}" [src]="cheese.imageUrl" />
+<p class="cheese-info">
+  Price per kg:
+  {{ cheese.pricePerKilo }}
+  &nbsp; Color: {{ cheese.color }}
+</p>

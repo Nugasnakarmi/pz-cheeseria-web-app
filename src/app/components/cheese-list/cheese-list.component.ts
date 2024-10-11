@@ -1,55 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CheeseItemComponent } from '../cheese-item/cheese-item.component';
 import { Cheese } from '../../interfaces/cheese.interface';
+import { CheeseService } from '../../services/cheese.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cheese-list',
   standalone: true,
-  imports: [CheeseItemComponent],
+  imports: [CheeseItemComponent, CommonModule],
   templateUrl: './cheese-list.component.html',
   styleUrl: './cheese-list.component.scss',
+  providers: [],
 })
-export class CheeseListComponent {
-  cheeseList: Cheese[] = [
-    {
-      id: 0,
-      name: 'Camembert',
-      imageUrl:
-        'https://www.cheese.com/media/img/cheese-suggestion/manchego_1280x800_1.jpg',
-      pricePerKilo: 3.5,
-      color: 'beige',
-    },
-    {
-      id: 1,
-      name: 'Cheddar',
-      imageUrl:
-        'https://www.cheese.com/media/img/cheese-suggestion/manchego_1280x800_1.jpg',
-      pricePerKilo: 3.5,
-      color: 'red',
-    },
-    {
-      id: 2,
-      name: 'Mozzarella',
-      imageUrl:
-        'https://www.cheese.com/media/img/cheese-suggestion/manchego_1280x800_1.jpg',
-      pricePerKilo: 3.5,
-      color: 'white',
-    },
-    {
-      id: 3,
-      name: 'Gouda',
-      imageUrl:
-        'https://www.cheese.com/media/img/cheese-suggestion/manchego_1280x800_1.jpg',
-      pricePerKilo: 3.5,
-      color: 'beige',
-    },
-    {
-      id: 4,
-      name: 'Gruyere',
-      imageUrl:
-        'https://www.cheese.com/media/img/cheese-suggestion/manchego_1280x800_1.jpg',
-      pricePerKilo: 3.5,
-      color: 'white',
-    },
-  ];
+export class CheeseListComponent implements OnInit {
+  cheeseService = inject(CheeseService);
+  cheeseList: Cheese[] = [];
+  cheeseList$: Observable<Cheese[]> = new Observable<Cheese[]>();
+
+  ngOnInit(): void {
+    this.cheeseList$ = this.cheeseService.getAllCheese$();
+    // cheeseList$.subscribe((cheeseList) => {
+    //   this.cheeseList = cheeseList;
+    // });
+  }
+
+  onCheeseClick(): void {
+    //dp sthe
+  }
 }
