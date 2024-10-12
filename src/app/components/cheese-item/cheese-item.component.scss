@@ -20,3 +20,16 @@
 
 .cheese-info {
 }
+.update-cheese,
+.delete-cheese {
+  padding: 5px;
+  border-radius: 5px;
+  border: 0.5px solid grey;
+}
+.update-cheese-icon {
+  color: green;
+}
+
+.delete-cheese-icon {
+  color: red;
+}

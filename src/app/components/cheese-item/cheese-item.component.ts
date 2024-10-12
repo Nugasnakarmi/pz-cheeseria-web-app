@@ -1,8 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Cheese } from '../../interfaces/cheese.interface';
 import { CurrencyPipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
+interface CheeseAction {
+  action: string;
+}
 @Component({
   selector: 'cheese-item',
   standalone: true,
@@ -13,7 +17,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class CheeseItemComponent {
   stockImageAddress = 'assets/images/stock.jpg';
-  faTrashCan = 'fa-trash-can';
+  faPencil = faPencil;
+  faTrashCan = faTrashCan;
   @Input() cheese: Cheese = {
     id: 0,
     name: '',
@@ -21,6 +26,8 @@ export class CheeseItemComponent {
     pricePerKilo: 0,
     color: '',
   };
+
+  @Output() cheeseActionClicked = new EventEmitter<'update' | 'delete'>();
 
   ngOnInit() {
     this.setStockCheeseImageIfNotProvided();
@@ -30,5 +37,9 @@ export class CheeseItemComponent {
     if (!this.cheese.imageUrl) {
       this.cheese.imageUrl = this.stockImageAddress;
     }
+  }
+
+  onCheeseActionClick(action: 'update' | 'delete'): void {
+    this.cheeseActionClicked.emit(action);
   }
 }

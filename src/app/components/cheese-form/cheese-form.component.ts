@@ -1,4 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,9 +18,10 @@ import { CheeseService } from '../../services/cheese.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, of, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { Cheese } from '../../interfaces/cheese.interface';
 
 @Component({
-  selector: 'app-cheese-form',
+  selector: 'cheese-form',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './cheese-form.component.html',
@@ -23,45 +31,43 @@ export class CheeseFormComponent implements OnInit {
   cheeseService = inject(CheeseService);
   toastrService = inject(ToastrService);
   router = inject(Router);
+  @Input() cheese: Cheese = {
+    id: 0,
+    name: '',
+    imageUrl: '',
+    pricePerKilo: 0,
+    color: '',
+  };
+  @Input() mode: 'add' | 'update' = 'add';
 
+  @Output() cheeseValue = new EventEmitter<Cheese>();
   cheeseForm: UntypedFormGroup = new UntypedFormGroup({});
-
+  buttonLabel = 'Add Cheese';
   ngOnInit() {
-    this.cheeseForm = new FormGroup({
-      name: new UntypedFormControl('', [Validators.required]),
-      imageUrl: new UntypedFormControl(''),
-      pricePerKilo: new UntypedFormControl('', [Validators.required]),
-      color: new UntypedFormControl('', [Validators.required]),
-    });
+    if (this.cheese) {
+      this.cheeseForm = new FormGroup({
+        name: new UntypedFormControl(this.cheese.name, [Validators.required]),
+        imageUrl: new UntypedFormControl(this.cheese.imageUrl),
+        pricePerKilo: new UntypedFormControl(this.cheese.pricePerKilo, [
+          Validators.required,
+        ]),
+        color: new UntypedFormControl(this.cheese.color, [Validators.required]),
+      });
+    } else {
+      this.cheeseForm = new FormGroup({
+        name: new UntypedFormControl('', [Validators.required]),
+        imageUrl: new UntypedFormControl(''),
+        pricePerKilo: new UntypedFormControl('', [Validators.required]),
+        color: new UntypedFormControl('', [Validators.required]),
+      });
+    }
+
+    if (this.mode === 'update') {
+      this.buttonLabel = 'Update Cheese';
+    }
   }
 
   onAddClick(): void {
-    /** With more time, instead of accessing the http service from the component I would have used ngRx store and
-    dispatched an 'action' to add cheese here, which in turn would have an 'effect' of adding cheese to the API. **/
-    this.cheeseService
-      .addCheese$(this.cheeseForm.value)
-      .pipe(
-        tap((res) => {
-          console.log(res);
-          this.toastrService
-            .success(
-              'Cheese added successfully! Click to heading back to the shop with updated cheese list',
-              'Success'
-            )
-            .onTap.pipe(take(1))
-            .subscribe(() => this.toasterSuccessClickedHandler());
-        }),
-        catchError((error) => {
-          this.toastrService.error('Could not add cheese to API', error);
-          return of(EMPTY);
-        })
-      )
-      .subscribe();
-
-    console.log(this.cheeseForm.value);
-  }
-
-  toasterSuccessClickedHandler(): void {
-    this.router.navigate(['/cheese-shop']);
+    this.cheeseValue.emit(this.cheeseForm.value);
   }
 }

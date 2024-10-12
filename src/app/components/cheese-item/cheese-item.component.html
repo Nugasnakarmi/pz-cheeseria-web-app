@@ -5,4 +5,11 @@
   {{ cheese.pricePerKilo }}
   &nbsp; Color: {{ cheese.color }}
 </p>
-<fa-icon class="delete-cheese" [icon]="faTrashCan"></fa-icon>
+<div class="cheese-actions">
+  <div class="update-cheese" (click)="onCheeseActionClick('update')">
+    <fa-icon class="update-cheese-icon" [icon]="faPencil"></fa-icon>
+  </div>
+  <div class="delete-cheese" (click)="onCheeseActionClick('delete')">
+    <fa-icon class="delete-cheese-icon" [icon]="faTrashCan"></fa-icon>
+  </div>
+</div>

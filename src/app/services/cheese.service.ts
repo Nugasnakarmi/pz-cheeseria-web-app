@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Cheese } from '../interfaces/cheese.interface';
-import { catchError, EMPTY, Observable, of } from 'rxjs';
+import { catchError, EMPTY, Observable, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,7 +22,7 @@ export class CheeseService {
     );
   }
 
-  getCheeseById(id: number): Observable<Cheese> {
+  getCheeseById$(id: number): Observable<Cheese> {
     return this.http.get<Cheese>(`${this.apiUrl}/${id}`);
   }
 
@@ -31,11 +31,21 @@ export class CheeseService {
     return this.http.post<Cheese>(this.apiUrl, cheese);
   }
 
-  updateCheese(id: number, cheese: Cheese): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, cheese);
+  updateCheese$(id: number, cheese: Cheese): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, cheese).pipe(
+      tap(() => {
+        this.toastrService.success('Cheese updated successfully', 'Success');
+      }),
+      catchError((error) => {
+        if (error) {
+          this.toastrService.error((error as Error).message, 'Error');
+        }
+        return of(error);
+      })
+    );
   }
 
-  deleteCheese(id: number): Observable<void> {
+  deleteCheese$(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

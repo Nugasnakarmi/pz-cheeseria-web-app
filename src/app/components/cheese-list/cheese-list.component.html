@@ -1,13 +1,13 @@
 @if(cheeseList$ | async; as cheeseList){
-<div class="cheese-list">
+<div class="cheese-list flex-center">
   @for (cheese of cheeseList; track $index) {
-  <app-cheese-item
+  <cheese-item
     [cheese]="cheese"
-    (click)="onCheeseClick()"
+    (cheeseActionClicked)="onCheeseClick($event, cheese)"
     title="Click to buy"
-  ></app-cheese-item
+  ></cheese-item
   >}
-  <div class="add-cheese-tile" [routerLink]="'/cheese-form'">
+  <div class="add-cheese-tile" [routerLink]="'/cheese-add'">
     <img class="plus-icon" src="assets/images/plus.png" alt="Add icon" />
   </div>
 </div>

@@ -4,10 +4,10 @@ import { Cheese } from '../../interfaces/cheese.interface';
 import { CheeseService } from '../../services/cheese.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-cheese-list',
+  selector: 'cheese-list',
   standalone: true,
   imports: [CheeseItemComponent, CommonModule, RouterLink],
   templateUrl: './cheese-list.component.html',
@@ -16,18 +16,21 @@ import { RouterLink } from '@angular/router';
 })
 export class CheeseListComponent implements OnInit {
   cheeseService = inject(CheeseService);
+  router = inject(Router);
   cheeseList: Cheese[] = [];
   cheeseList$: Observable<Cheese[]> = new Observable<Cheese[]>();
 
   ngOnInit(): void {
     this.cheeseList$ = this.cheeseService.getAllCheese$();
-    // cheeseList$.subscribe((cheeseList) => {
-    //   this.cheeseList = cheeseList;
-    // });
   }
 
-  onCheeseClick(): void {
-    //dp sthe
+  onCheeseClick(action: string, cheese: Cheese): void {
+    if (action === 'update') {
+      this.router.navigate([`/cheese-update/${cheese.id}`]);
+    }
+    if (action === 'delete') {
+      this.cheeseService.deleteCheese$(cheese.id).subscribe();
+    }
   }
 
   onAddClick(): void {}

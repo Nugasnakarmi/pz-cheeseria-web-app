@@ -1,7 +1,7 @@
 .cheese-list {
   display: grid;
-  grid-template-columns: repeat(3, 30%);
-  grid-template-rows: repeat(2, 45%);
+  grid-template-columns: repeat(3, 25%);
+  // grid-template-rows: repeat(2, 45%);
   grid-gap: 10px;
 }
 
@@ -19,4 +19,7 @@
   opacity: 80%;
   cursor: pointer;
   border-radius: 20px;
+  :hover {
+    opacity: 50%;
+  }
 }
