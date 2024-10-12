@@ -4,11 +4,12 @@ import { Cheese } from '../../interfaces/cheese.interface';
 import { CheeseService } from '../../services/cheese.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cheese-list',
   standalone: true,
-  imports: [CheeseItemComponent, CommonModule],
+  imports: [CheeseItemComponent, CommonModule, RouterLink],
   templateUrl: './cheese-list.component.html',
   styleUrl: './cheese-list.component.scss',
   providers: [],
@@ -28,4 +29,6 @@ export class CheeseListComponent implements OnInit {
   onCheeseClick(): void {
     //dp sthe
   }
+
+  onAddClick(): void {}
 }

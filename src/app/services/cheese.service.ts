@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Cheese } from '../interfaces/cheese.interface';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +11,15 @@ import { environment } from '../../environments/environment';
 export class CheeseService {
   private apiUrl = `${environment.apiUrl}/cheese`;
   http = inject(HttpClient);
-
+  toastrService = inject(ToastrService);
   getAllCheese$(): Observable<Cheese[]> {
     const getAllCheeseUrl = `${this.apiUrl}/all`;
-    return this.http.get<Cheese[]>(getAllCheeseUrl);
+    return this.http.get<Cheese[]>(getAllCheeseUrl).pipe(
+      catchError((error) => {
+        // this.toastrService.error('Could not fetch cheese from API', error);
+        return of([]);
+      })
+    );
   }
 
   getCheeseById(id: number): Observable<Cheese> {
