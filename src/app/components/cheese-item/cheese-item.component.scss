@@ -7,13 +7,15 @@
   border-radius: 20px;
   background-color: antiquewhite;
   cursor: pointer;
+
+  :hover {
+    opacity: 75%;
+  }
 }
-:host :hover {
-  opacity: 75%;
-}
+
 .cheese-image {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 250px;
 }
 
 .cheese-info {

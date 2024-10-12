@@ -1,17 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { Cheese } from '../../interfaces/cheese.interface';
 import { CurrencyPipe } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-cheese-item',
+  selector: 'cheese-item',
   standalone: true,
-  imports: [],
+  imports: [FontAwesomeModule],
   templateUrl: './cheese-item.component.html',
   styleUrl: './cheese-item.component.scss',
   providers: [CurrencyPipe],
 })
 export class CheeseItemComponent {
   stockImageAddress = 'assets/images/stock.jpg';
+  faTrashCan = 'fa-trash-can';
   @Input() cheese: Cheese = {
     id: 0,
     name: '',
