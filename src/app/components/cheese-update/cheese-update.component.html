@@ -1,6 +1,6 @@
 @if(cheese$| async; as cheese) {
 <div class="cheese-container flex-center">
-  <cheese-item [cheese]="cheese"></cheese-item>
+  <cheese-item [mode]="'update'" [cheese]="cheese"></cheese-item>
 </div>
 <cheese-form
   [mode]="'update'"

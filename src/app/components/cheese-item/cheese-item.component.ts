@@ -26,6 +26,7 @@ export class CheeseItemComponent {
     pricePerKilo: 0,
     color: '',
   };
+  @Input() mode: 'shop' | 'update' = 'shop';
 
   @Output() cheeseActionClicked = new EventEmitter<'update' | 'delete'>();
 

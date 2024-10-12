@@ -5,11 +5,13 @@ import { CheeseService } from '../../services/cheese.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'cheese-list',
   standalone: true,
-  imports: [CheeseItemComponent, CommonModule, RouterLink],
+  imports: [CheeseItemComponent, CommonModule, RouterLink, FontAwesomeModule],
   templateUrl: './cheese-list.component.html',
   styleUrl: './cheese-list.component.scss',
   providers: [],
@@ -19,7 +21,7 @@ export class CheeseListComponent implements OnInit {
   router = inject(Router);
   cheeseList: Cheese[] = [];
   cheeseList$: Observable<Cheese[]> = new Observable<Cheese[]>();
-
+  faAddIcon = faPlus;
   ngOnInit(): void {
     this.cheeseList$ = this.cheeseService.getAllCheese$();
   }

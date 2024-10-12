@@ -5,12 +5,6 @@
   grid-gap: 10px;
 }
 
-.plus-icon {
-  width: 50%;
-  height: auto;
-  color: grey;
-}
-
 .add-cheese-tile {
   display: flex;
   align-items: center;
@@ -21,5 +15,12 @@
   border-radius: 20px;
   :hover {
     opacity: 50%;
+  }
+  height: 100%;
+
+  .plus-icon {
+    font-size: 100px;
+
+    color: grey;
   }
 }

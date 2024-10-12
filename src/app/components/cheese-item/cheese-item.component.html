@@ -1,11 +1,12 @@
 <h1>{{ cheese.name }}</h1>
 <img class="cheese-image" alt="{{ cheese.name }}" [src]="cheese.imageUrl" />
-<p class="cheese-info">
+<p>
   Price per kg:
   {{ cheese.pricePerKilo }}
   &nbsp; Color: {{ cheese.color }}
 </p>
-<div class="cheese-actions">
+@if (mode !== 'update') {
+<div class="cheese-actions flex-center">
   <div class="update-cheese" (click)="onCheeseActionClick('update')">
     <fa-icon class="update-cheese-icon" [icon]="faPencil"></fa-icon>
   </div>
@@ -13,3 +14,4 @@
     <fa-icon class="delete-cheese-icon" [icon]="faTrashCan"></fa-icon>
   </div>
 </div>
+}
