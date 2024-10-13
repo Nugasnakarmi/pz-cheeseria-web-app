@@ -29,7 +29,6 @@ import { Cheese } from '../../interfaces/cheese.interface';
 })
 export class CheeseFormComponent implements OnInit {
   cheeseService = inject(CheeseService);
-  toastrService = inject(ToastrService);
   router = inject(Router);
   @Input() cheese: Cheese = {
     id: 0,

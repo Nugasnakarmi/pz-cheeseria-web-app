@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CheeseItemComponent } from '../cheese-item/cheese-item.component';
 import { Cheese } from '../../interfaces/cheese.interface';
 import { CheeseService } from '../../services/cheese.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -19,6 +19,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 export class CheeseListComponent implements OnInit {
   cheeseService = inject(CheeseService);
   router = inject(Router);
+
   cheeseList: Cheese[] = [];
   cheeseList$: Observable<Cheese[]> = new Observable<Cheese[]>();
   faAddIcon = faPlus;
@@ -31,7 +32,14 @@ export class CheeseListComponent implements OnInit {
       this.router.navigate([`/cheese-update/${cheese.id}`]);
     }
     if (action === 'delete') {
-      this.cheeseService.deleteCheese$(cheese.id).subscribe();
+      this.cheeseService
+        .deleteCheese$(cheese.id)
+        .pipe(
+          tap(() => {
+            this.cheeseList$ = this.cheeseService.getAllCheese$();
+          })
+        )
+        .subscribe();
     }
   }
 

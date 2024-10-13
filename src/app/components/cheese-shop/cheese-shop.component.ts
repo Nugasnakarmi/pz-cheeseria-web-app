@@ -3,7 +3,7 @@ import { CheeseListComponent } from '../cheese-list/cheese-list.component';
 import { CheeseFormComponent } from '../cheese-form/cheese-form.component';
 
 @Component({
-  selector: 'app-cheese-shop',
+  selector: 'cheese-shop',
   standalone: true,
   imports: [CheeseListComponent, CheeseFormComponent],
   templateUrl: './cheese-shop.component.html',

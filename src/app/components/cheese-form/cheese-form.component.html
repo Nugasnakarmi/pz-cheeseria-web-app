@@ -3,12 +3,14 @@
     <label for="name"> Cheese Name: </label>
     <input type="text" formControlName="name" />
   </div>
-  <!-- @if ({{ cheeseForm.get("name").errors.required }}) {<small>
-    Cheese name is required</small
-  >} -->
 
   <div>
-    <label> Image URL: </label> <input type="text" formControlName="imageUrl" />
+    <label> Image URL: </label>
+    <input
+      type="text"
+      formControlName="imageUrl"
+      placeholder="Can put blank or any working URL to an image"
+    />
   </div>
   <div>
     <label> Color: </label> <input type="text" formControlName="color" />

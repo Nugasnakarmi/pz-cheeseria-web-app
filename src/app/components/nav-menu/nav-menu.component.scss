@@ -1,0 +1,10 @@
+.nav-menu {
+  li {
+    display: unset;
+    cursor: pointer;
+  }
+
+  li:hover {
+    text-decoration: underline;
+  }
+}

@@ -4,9 +4,6 @@ import { CurrencyPipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-interface CheeseAction {
-  action: string;
-}
 @Component({
   selector: 'cheese-item',
   standalone: true,

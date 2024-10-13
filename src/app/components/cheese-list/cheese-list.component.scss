@@ -1,7 +1,7 @@
+// TO DO : In future work on making grid responsive to different screen size.
 .cheese-list {
   display: grid;
   grid-template-columns: repeat(3, 25%);
-  // grid-template-rows: repeat(2, 45%);
   grid-gap: 10px;
 }
 

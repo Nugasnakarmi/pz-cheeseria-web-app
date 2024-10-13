@@ -18,6 +18,7 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       enableHtml: true,
       tapToDismiss: true, // Dismiss toast on click
+      preventDuplicates: true,
     }),
   ],
 };

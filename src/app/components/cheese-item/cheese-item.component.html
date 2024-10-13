@@ -1,5 +1,10 @@
 <h1>{{ cheese.name }}</h1>
-<img class="cheese-image" alt="{{ cheese.name }}" [src]="cheese.imageUrl" />
+<img
+  class="cheese-image"
+  alt="{{ cheese.name }}"
+  [src]="cheese.imageUrl"
+  title="Click to buy"
+/>
 <p>
   Price per kg:
   {{ cheese.pricePerKilo }}
