@@ -16,11 +16,18 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
+cd to ./pz-cheeseria-web-app and
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Here's how it looks
 
 ![Alt text](./public/assets/images/Cheese-shop.png)
+Instructions to use:
+
+Click on a Cheese item to buy and calculate price.
+Click on the green pencil icon to edit.
+Click on the red bin to delete
+Click on the tile with the plus symbol to add new cheese.
 
 ## Further help
 
