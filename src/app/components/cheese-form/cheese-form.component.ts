@@ -50,14 +50,14 @@ export class CheeseFormComponent implements OnInit {
         pricePerKilo: new UntypedFormControl(this.cheese.pricePerKilo, [
           Validators.required,
         ]),
-        color: new UntypedFormControl(this.cheese.color, [Validators.required]),
+        color: new UntypedFormControl(this.cheese.color),
       });
     } else {
       this.cheeseForm = new FormGroup({
         name: new UntypedFormControl('', [Validators.required]),
         imageUrl: new UntypedFormControl(''),
-        pricePerKilo: new UntypedFormControl('', [Validators.required]),
-        color: new UntypedFormControl('', [Validators.required]),
+        pricePerKilo: new UntypedFormControl(''),
+        color: new UntypedFormControl(''),
       });
     }
 

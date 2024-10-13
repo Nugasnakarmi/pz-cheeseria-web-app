@@ -43,5 +43,7 @@ export class CheeseListComponent implements OnInit {
     }
   }
 
-  onAddClick(): void {}
+  onItemClicked($event: Event, cheese: Cheese): void {
+    this.router.navigate([`/buy-cheese/${cheese.id}`]);
+  }
 }

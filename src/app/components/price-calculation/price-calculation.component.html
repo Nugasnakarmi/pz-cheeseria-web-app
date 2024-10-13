@@ -1,1 +1,13 @@
-<p>price-calculation works!</p>
+@if(cheese$| async; as cheese) {
+<div class="cheese-container flex-center">
+  <cheese-item [mode]="'buy'" [cheese]="cheese"></cheese-item>
+</div>
+}
+<form class="price-form" [formGroup]="priceForm">
+  <div class="form-row">
+    <label for="weight"> Weight: </label>
+    <input formControlName="weight" type="number" (keyup)="onWeightChange()" />
+  </div>
+
+  <div class="total-price">Total price: {{ totalPrice | currency }}</div>
+</form>

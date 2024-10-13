@@ -1,10 +1,10 @@
 <form class="cheese-form flex-center" [formGroup]="cheeseForm">
-  <div>
+  <div class="form-row">
     <label for="name"> Cheese Name: </label>
     <input type="text" formControlName="name" />
   </div>
 
-  <div>
+  <div class="form-row">
     <label> Image URL: </label>
     <input
       type="text"
@@ -12,10 +12,10 @@
       placeholder="Can put blank or any working URL to an image"
     />
   </div>
-  <div>
+  <div class="form-row">
     <label> Color: </label> <input type="text" formControlName="color" />
   </div>
-  <div>
+  <div class="form-row">
     <label> Price per Kg: </label>
     <input type="text" formControlName="pricePerKilo" />
   </div>

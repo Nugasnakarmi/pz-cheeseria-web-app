@@ -4,6 +4,7 @@
   <cheese-item
     [cheese]="cheese"
     (cheeseActionClicked)="onCheeseClick($event, cheese)"
+    (click)="onItemClicked($event, cheese)"
   ></cheese-item
   >}
   <div class="add-cheese-tile" [routerLink]="'/cheese-add'">

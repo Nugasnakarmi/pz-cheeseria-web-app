@@ -5,6 +5,7 @@ import { CheeseFormComponent } from './components/cheese-form/cheese-form.compon
 import { CheeseShopComponent } from './components/cheese-shop/cheese-shop.component';
 import { CheeseUpdateComponent } from './components/cheese-update/cheese-update.component';
 import { CheeseAddComponent } from './components/cheese-add/cheese-add.component';
+import { PriceCalculationComponent } from './components/price-calculation/price-calculation.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/cheese-shop', pathMatch: 'full' },
@@ -33,5 +34,10 @@ export const routes: Routes = [
     path: 'cheese-update/:id',
     component: CheeseUpdateComponent,
     data: { title: 'Cheese Update' },
+  },
+  {
+    path: 'buy-cheese/:id',
+    component: PriceCalculationComponent,
+    data: { title: 'Buy Cheese' },
   },
 ];
