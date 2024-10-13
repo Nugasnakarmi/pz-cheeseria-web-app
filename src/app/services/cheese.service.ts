@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class CheeseService {
-  public apiUrl = `${environment.apiUrl}/cheese`;
+  public apiUrl = `${environment.API_URL}/cheese`;
   http = inject(HttpClient);
   toastrService = inject(ToastrService);
   router = inject(Router);
