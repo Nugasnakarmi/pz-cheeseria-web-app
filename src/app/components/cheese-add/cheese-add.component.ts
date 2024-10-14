@@ -22,7 +22,7 @@ export class CheeseAddComponent {
   }
   onCheeseAdded($event: Cheese): void {
     const cheese = $event;
-    /** With more time, instead of accessing the http service from the component I would have used ngRx store and
+    /** With ample time provided, instead of accessing the http service from the component I would have used ngRx store and
     dispatched an 'action' to add cheese here, which in turn would have an 'effect' of adding cheese to the API. **/
 
     this.subscriptions.add(this.cheeseService.addCheese$(cheese).subscribe());
