@@ -3,11 +3,11 @@ services:
     container_name: pz-cheeseria-app-container
     build: .
     image: pz-cheeseria-app:v1
-    ports: 
+    ports:
       - "80:80"
     expose:
       - 80
-    networks: 
+    networks:
       - internalnet
 
 networks:

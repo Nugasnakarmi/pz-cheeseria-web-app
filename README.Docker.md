@@ -3,7 +3,10 @@
 When you're ready, start your application by running:
 `docker compose up --build`.
 
-Your application will be available at http://localhost:4200.
+Your application will be available at http://localhost.
+
+Since the API hasn't been dockerized in the same project will
+need to be run separately.
 
 ### Deploying your application to the cloud
 
@@ -19,4 +22,5 @@ Consult Docker's [getting started](https://docs.docker.com/go/get-started-sharin
 docs for more detail on building and pushing.
 
 ### References
-* [Docker's Node.js guide](https://docs.docker.com/language/nodejs/)
+
+- [Docker's Node.js guide](https://docs.docker.com/language/nodejs/)
