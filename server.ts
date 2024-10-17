@@ -1,57 +1,138 @@
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
-import express from 'express';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
-import bootstrap from './src/main.server';
+import * as http from 'http';
+import * as url from 'url';
+import * as bodyParser from 'body-parser';
 
-// The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
-  const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+const port = 5000;
 
-  const commonEngine = new CommonEngine();
-
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
-
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get('**', express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: 'index.html',
-  }));
-
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
-
-    commonEngine
-      .render({
-        bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
-  });
-
-  return server;
+interface Cheese {
+  id: number;
+  name: string;
+  imageUrl: string;
+  pricePerKilo: number;
+  color: string;
 }
+const apiString = '/api/cheese';
+const cheeseService = {
+  getCheeseList: (): Cheese[] => [
+    {
+      id: 1,
+      name: 'Cheddar',
+      imageUrl: 'https://www.cheese.com/media/img/cheese/cheddar_large.jpg',
+      pricePerKilo: 85,
+      color: 'Pale Yellow',
+    },
+    {
+      id: 2,
+      name: 'Gouda',
+      imageUrl: 'https://www.cheese.com/media/img/cheese/gouda_large.jpg',
+      pricePerKilo: 75,
+      color: 'Yellow',
+    },
+  ],
+  getCheese: (id: number): Cheese | null => {
+    const cheese: Cheese = {
+      id: id,
+      name: 'Cheddar',
+      imageUrl: 'https://www.cheese.com/media/img/cheese/cheddar_large.jpg',
+      pricePerKilo: 85,
+      color: 'Pale Yellow',
+    };
+    return cheese.id === id ? cheese : null;
+  },
+  addCheese: (cheese: Cheese): Cheese => {
+    const newId = cheeseService.getCheeseList().length + 1;
+    return { ...cheese, id: newId };
+  },
+  updateCheese: (id: number, cheese: Cheese): Cheese => cheese,
+  deleteCheese: (id: number): boolean => id === 1,
+};
 
-function run(): void {
-  const port = process.env['PORT'] || 4000;
+const server = http.createServer((req, res) => {
+  const parsedUrl = url.parse(req.url!, true);
+  const method = req.method!;
+  const path = parsedUrl.pathname!;
+  const id = parsedUrl.query['id'] as string;
 
-  // Start up the Node server
-  const server = app();
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
-}
+  if (method === 'GET' && path === '/api/cheese/all') {
+    try {
+      const cheeseList = cheeseService.getCheeseList();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(cheeseList));
+    } catch (error) {
+      res.writeHead(500);
+      res.end((error as Error).message);
+    }
+  } else if (method === 'GET' && path.startsWith(apiString)) {
+    try {
+      const cheese = cheeseService.getCheese(Number(id));
+      if (cheese) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(cheese));
+      } else {
+        res.writeHead(404);
+        res.end('Cheese not found');
+      }
+    } catch (error) {
+      res.writeHead(500);
+      res.end((error as Error).message);
+    }
+  } else if (method === 'POST' && path === apiString) {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        const cheese = JSON.parse(body) as Cheese;
+        const newCheese = cheeseService.addCheese(cheese);
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(newCheese));
+      } catch (error) {
+        res.writeHead(500);
+        res.end((error as Error).message);
+      }
+    });
+  } else if (method === 'PUT' && path.startsWith(apiString)) {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        const cheese = JSON.parse(body) as Cheese;
+        const updatedCheese = cheeseService.updateCheese(Number(id), cheese);
+        if (updatedCheese) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(updatedCheese));
+        } else {
+          res.writeHead(404);
+          res.end('Cheese not found');
+        }
+      } catch (error) {
+        res.writeHead(500);
+        res.end((error as Error).message);
+      }
+    });
+  } else if (method === 'DELETE' && path.startsWith(apiString)) {
+    try {
+      const result = cheeseService.deleteCheese(Number(id));
+      if (result) {
+        res.writeHead(200);
+        res.end('Cheese deleted');
+      } else {
+        res.writeHead(404);
+        res.end('Cheese not found');
+      }
+    } catch (error) {
+      res.writeHead(500);
+      res.end((error as Error).message);
+    }
+  } else {
+    res.writeHead(404);
+    res.end('Not Found');
+  }
+});
 
-run();
+server.listen(port, () => {
+  console.log(`Cheese API running at http://localhost:${port}`);
+});
